@@ -1,0 +1,136 @@
+syntax = "v1"
+
+type (
+	Token {
+		AccessToken  string `json:"access_token"`
+		AccessExpire int64  `json:"access_expire"`
+	}
+	LoginRequest {
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+	RegisterRequest {
+		Email    string `json:"email"`
+		Code     string `json:"code"`
+		Nickname string `json:"nickname"`
+		Password string `json:"password"`
+	}
+	LoginResponse {
+		Token Token `json:"token"`
+	}
+	RegisterResponse {
+		UserId int64 `json:"user_id"`
+		Token  Token `json:"token"`
+	}
+	SendCodeRequest {
+		email string `json:"email"`
+	}
+	SendCodeResponse {
+		Code string `json:"code,omitempty"`
+	}
+	UserInfo {
+		UserId   int64  `json:"user_id"`
+		Nickname string `json:"nickname"`
+		Avatar   string `json:"avatar"`
+		Gender   int    `json:"gender"`
+		Motto    string `json:"motto"`
+		Email    string `json:"email"`
+		Birthday string `json:"birthday"`
+		Mobile   string `json:"mobile"`
+	}
+	UserInfoResponse {
+		UserInfo
+	}
+	UserSetting {
+		KeyboardEventNotify string `json:"keyboard_event_notify"`
+		NotifyCueTone       string `json:"notify_cue_tone"`
+		ThemeBagImg         string `json:"theme_bag_img"`
+		ThemeColor          string `json:"theme_color"`
+		ThemeMode           string `json:"theme_mode"`
+	}
+	UserSettingResponse {
+		UserInfo    UserInfo    `json:"user_info"`
+		UserSetting UserSetting `json:"user_setting"`
+	}
+	ModifyEmailRequest {
+		Password string `json:"password"`
+		Email    string `json:"email"`
+		Code     string `json:"code"`
+	}
+	ModifyEmailResponse  {}
+	ModifyMobileRequest {
+		Password string `json:"password"`
+		Mobile   string `json:"mobile"`
+		Code     string `json:"code"`
+	}
+	ModifyMobileResponse  {}
+	ModifyPasswordRequest {
+		Password    string `json:"password"`
+		NewPassword string `json:"new_password"`
+	}
+	ModifyPasswordResponse  {}
+	ModifyUserInfoRequest {
+		Nickname string `json:"nickname"`
+		Avatar   string `json:"avatar"`
+		Gender   int    `json:"gender"`
+		Motto    string `json:"motto"`
+		Birthday string `json:"birthday"`
+	}
+	ModifyUserInfoResponse  {}
+)
+
+@server (
+	group:  login
+	prefix: /v1
+)
+service applet-api {
+	@handler LoginHandler
+	post /login (LoginRequest) returns (LoginResponse)
+}
+
+@server (
+	group:  register
+	prefix: /v1
+)
+service applet-api {
+	@handler RegisterHandler
+	post /register (RegisterRequest) returns (RegisterResponse)
+
+	@handler SendCodeHandler
+	post /send-code (SendCodeRequest) returns (SendCodeResponse)
+}
+
+@server (
+	jwt:       Auth
+	prefix:    /v1/user
+	signature: true
+	group:     user
+)
+service applet-api {
+	@handler UserInfoHandler
+	get /info returns (UserInfoResponse)
+
+	@handler ModifyMobileHandler
+	post /change-mobile (ModifyMobileRequest) returns (ModifyMobileResponse)
+
+	@handler ModifyEmailHandler
+	post /change-email (ModifyEmailRequest) returns (ModifyEmailResponse)
+
+	@handler ModifyPasswordHandler
+	post /change-password (ModifyPasswordRequest) returns (ModifyPasswordResponse)
+
+	@handler ModifyUserInfoHandler
+	post /info (ModifyUserInfoRequest) returns (ModifyUserInfoResponse)
+}
+
+@server (
+	jwt:       Auth
+	prefix:    /v1/user
+	signature: true
+	group:     setting
+)
+service applet-api {
+	@handler UserSettingHandler
+	get /setting returns (UserSettingResponse)
+}
+

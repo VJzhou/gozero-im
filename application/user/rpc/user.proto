@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package service;
+
+option go_package= "./service";
+
+service User {
+    rpc Register (RegisterRequest) returns (RegisterResponse);
+    rpc FindByEmail (FindByEmailRequest) returns (FindByEmailResponse);
+    rpc FindById (FindByIdRequest) returns (FindByIdResponse);
+    rpc UpdateUserInfo(UpdateUserInfoResquest) returns (UpdateUserInfoResponse);
+    rpc ModifyEmail (ModifyEmailRequest) returns (ModifyEmailResponse);
+    rpc ModifyMobile (ModifyMobileRequest) returns (ModifyMobileResponse);
+    rpc ModifyPassword (ModifyPasswordRequest) returns (ModifyPasswordResponse);
+}
+
+message RegisterRequest {
+    string email = 1;
+    string password = 2;
+    string nickname = 3;
+}
+
+message RegisterResponse {
+    int64 id = 1;
+}
+
+message FindByEmailRequest {
+    string email = 1;
+}
+
+message FindByEmailResponse {
+    int64 userId = 1;
+    string nickname = 2;
+    string email = 3;
+    string avatar = 4;
+    string birthday = 5;
+    string mobile = 6;
+    string motto = 7;
+    int64 gender = 8;
+}
+
+message FindByIdRequest {
+    int64 id = 1;
+}
+message FindByIdResponse {
+    int64 userId = 1;
+    string nickname = 2;
+    string email = 3;
+    string avatar = 4;
+    string birthday = 5;
+    string mobile = 6;
+    string motto = 7;
+    int64 gender = 8;
+}
+
+message UpdateUserInfoResquest {
+    int64 userId = 1;
+    string nickname = 2;
+    int32 gender = 3;
+    string birthday = 4;
+    string motto = 5;
+    string avatar = 6;
+}
+message UpdateUserInfoResponse {}
+
+
+message ModifyEmailRequest {
+    int64 userId = 1;
+    string email  =2 ;
+}
+message ModifyEmailResponse {}
+
+message ModifyMobileRequest {
+    int64 userId = 1;
+    string mobile =2 ;
+}
+message ModifyMobileResponse {}
+
+message ModifyPasswordRequest {
+    int64 userId = 1;
+    string password = 2;
+}
+message ModifyPasswordResponse {}
+

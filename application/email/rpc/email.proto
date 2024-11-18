@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package service;
+
+option go_package = "./service";
+
+service Email{
+    rpc SendEmail (SendEmailRequest) returns (SendEmailResponse);
+    rpc CheckEmail (CheckEmailCodeRequest) returns(CheckEmailCodeResponse);
+    rpc DeleteEmailCode (DeleteEmailCodeRequest) returns (DeleteEmailCodeResponse);
+}
+
+message SendEmailRequest {
+    string email = 1;
+}
+
+message SendEmailResponse {}
+
+message CheckEmailCodeRequest {
+    string email = 1;
+    string code = 2;
+}
+
+message CheckEmailCodeResponse {
+    
+}
+
+message DeleteEmailCodeRequest {
+    string email = 1;
+}
+
+message DeleteEmailCodeResponse {}
+

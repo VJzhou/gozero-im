@@ -1,0 +1,75 @@
+syntax = "v1"
+
+type (
+	ApplyFriendRequest {
+		ApplyId int64  `json:"apply_id"`
+		Remark  string `json:"remark"`
+	}
+	ApplyFriendResponse  {}
+	ApplyFriendItem {
+		Id        int64  `json:"id"`
+		UserId    int64  `json:"user_id"`
+		FriendId  int64  `json:"friend_id"`
+		Remark    string `json:"remark"`
+		Nickname  string `json:"nickname"`
+		Avater    string `json:"avatar"`
+		CreatedAt string `json:"created_at"`
+	}
+	ApplyFriendListResponse {
+		itmes []ApplyFriendItem `json:"items"`
+	}
+	SearchFriendRequest {
+		Mobile string `json:"mobile"`
+	}
+	SearchFriendResponse {
+		Nickname string `json:"nickname"`
+		Avatar   string `json:"avatar"`
+		Gender   int    `json:"gender"`
+		Email    string `json:"email"`
+		UserId   int64  `json:"user_id"`
+	}
+	CancelApplyRequest {
+		Id int64 `json:"id"`
+	}
+	CancelApplyResponse  {}
+	AcceptApplyRequest  {}
+	AcceptApplyResponse  {}
+	RejectApplyRequest  {}
+	RejectApplyResponse  {}
+	RemoveFriendRequest {
+		FriendId int64 `json:"friend_id"`
+	}
+	RemoveFriendResponse  {}
+)
+
+@server (
+	group:     apply
+	prefix:    /v1/friend
+	jwt:       Auth
+	signature: true
+)
+service friend {
+	@handler ApplyFriendHandler
+	post /apply (ApplyFriendRequest) returns (ApplyFriendResponse)
+
+	@handler ApplyFriendListHandler
+	get /apply returns (ApplyFriendListResponse)
+
+	@handler SearchFriendHandler
+	get /search (SearchFriendRequest) returns (SearchFriendResponse)
+
+	@handler CancelApplyHandler
+	put /apply (CancelApplyRequest) returns (CancelApplyResponse)
+}
+
+@server (
+	group:     friend
+	prefix:    /v1/friend
+	jwt:       Auth
+	signature: true
+)
+service friend {
+	@handler RemoveFriendHandler
+	delete /remove (RemoveFriendRequest) returns (RemoveFriendResponse)
+}
+

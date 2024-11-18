@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package service;
+
+option go_package = "./service";
+
+
+service Friend {
+    rpc ApplyFriend (ApplyFriendRequest) returns (ApplyFriendResponse);
+    rpc ApplyFriendList (ApplyFriendListRequest) returns (ApplyFriendListResponse);
+    rpc ApplyPass (ApplyHandlerRequest) returns (ApplyHandlerResponse);
+    rpc ApplyReject  (ApplyHandlerRequest) returns (ApplyHandlerResponse);
+
+    rpc FriendList (FriendListRequest) returns (FriendListResponse);
+    rpc RemoveFriend (RemoveFriendRequest) returns (RemoveFriendResponse);
+}
+
+message ApplyFriendRequest {
+    int64 userId = 1;
+    int64 fid = 2;
+    string remark = 3;
+}
+message ApplyFriendResponse {}
+
+message ApplyFriendItem {
+    int64 Id = 1;
+    int64 UserId  = 2;
+    int64 FriendId = 3;
+    string Remark = 4;
+    string Nickname = 5;
+    string Avatar = 6;
+    string CreatedAt = 7;
+}
+message ApplyFriendListRequest{
+    int64 userId = 1;
+    int64 cursor = 2;
+    int64 pageSize = 3;
+    int32 sortType = 4;
+    int64 applyId = 5;
+}
+message ApplyFriendListResponse{
+    repeated ApplyFriendItem applys = 1;
+    bool isEnd = 2;
+    int64 cursor = 3;
+    int64 applyId = 4;
+}
+
+message ApplyHandlerRequest {
+    int64 id = 1;
+    int64 userId = 2;
+    int32 status = 3;
+}
+message ApplyHandlerResponse {}
+
+message FriendListRequest {
+   
+}
+message FriendListResponse {}
+
+message RemoveFriendRequest {
+    int64 UserId = 1;
+    int64 FriendId = 2;
+}
+message RemoveFriendResponse {}
+

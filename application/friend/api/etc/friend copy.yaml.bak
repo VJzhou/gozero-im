@@ -1,0 +1,22 @@
+Name: friend
+Host: 0.0.0.0
+Port: 8889
+
+Auth:
+  AccessSecret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  AccessExpire: 604800
+  RefreshSecret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  RefreshExpire: 2592000
+  RefreshAfter: 604800
+
+
+BizRedis:
+  Host: xxxxx:6379
+  Pass: xxxxxx
+  Type: node
+
+UserRPC:
+  Target: consul://xxxxxx:8500/user.rpc?wait=14s
+
+FriendRPC:
+  Target: consul://xxxxx:8500/friend.rpc?wait=14s

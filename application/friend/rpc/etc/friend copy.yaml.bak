@@ -1,0 +1,23 @@
+Name: friend.rpc
+ListenOn: 0.0.0.0:8082
+
+Consul:
+  Host: xxxxx:8500 # consul endpoint
+  Key: friend.rpc
+  Meta:
+    Protocol: grpc
+  Tag:
+    - rpc
+CacheRedis:
+  - Host: xxxxxx:6379
+    Pass: xxxxx
+    Type: node
+BizRedis:
+  Host: xxxxxx:6379
+  Pass: xxxxxxx
+  Type: node
+DB:
+  DataSource: root:xxxxx@tcp(xxxxxx:3306)/im_friend?parseTime=true&loc=Local
+  MaxIdleConns: 10
+  MaxOpenConns: 100
+  ConnMaxLifetime: 3600
